@@ -1,0 +1,256 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+U
+{
+    internalField   uniform (0 0 0);
+
+    boundaryField
+    {
+        
+        inlet
+        {
+            type            flowRateInletVelocity;
+            massFlowRate    constant 0.02; // kg/s 
+            value            uniform (0 0 0);
+        }
+        outlet
+        {
+            type             flowRateOutletVelocity;
+            massFlowRate     constant 0.02; // kg/s
+            outletValue      uniform (0 0 0);
+        }
+
+        ".*"
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+T
+{
+    internalField   uniform 180;
+
+    boundaryField
+    {
+        inlet
+        {
+            type            fixedValue;
+            value           uniform 330;
+        }
+
+        ".*"
+        {
+            type            zeroGradient;
+            value           uniform 180;
+        }
+
+        "outBox_to.*"
+        {
+            type            compressible::turbulentTemperatureCoupledBaffleMixed;
+            Tnbr            T;
+            kappaMethod     fluidThermo;
+            value           uniform 180;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+epsilon
+{
+    internalField   uniform 0.01;
+
+    boundaryField
+    {
+        inlet
+        {
+            type            fixedValue;
+            value           uniform 0.01;
+        }
+
+        outlet
+        {
+            type            inletOutlet;
+            inletValue      uniform 0.01;
+        }
+
+        ".*"
+        {
+            type            epsilonWallFunction;
+            value           uniform 0.01;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+k
+{
+    internalField   uniform 0.1;
+
+    boundaryField
+    {
+        inlet
+        {
+            type            inletOutlet;
+            inletValue      uniform 0.1;
+        }
+
+        outlet
+        {
+            type            zeroGradient;
+            value           uniform 0.1;
+        }
+
+        ".*"
+        {
+            type            kqRWallFunction;
+            value           uniform 0.1;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+p_rgh
+{
+    internalField   uniform 1E5;
+
+    boundaryField
+    {
+        inlet
+        {
+            type            zeroGradient;
+            value           $internalField;
+            /*
+            type            fixedValue;
+            value           $internalField;
+            */
+        }
+
+        outlet
+        {
+            type            fixedValue;
+            value           $internalField;
+            /*
+            type            zeroGradient;
+            value           $internalField;
+            */
+        }
+
+        ".*"
+        {
+            type            fixedFluxPressure;
+            value           $internalField;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+p
+{
+    internalField   uniform 1E5;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            calculated;
+            value           uniform 0;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+alphat
+{
+    internalField   uniform 0;
+
+    boundaryField
+    {
+        inlet
+        {
+            type    zeroGradient;
+            Prt     7.0;
+        }
+        ".*"
+        {
+            type    zeroGradient;
+            Prt     7.0;
+            /*
+            type alphatJayatillekeWallFunction;
+            Prt 7.0;
+            value uniform 0;
+            */
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+
+}
+nut
+{
+    internalField   uniform 0;
+    boundaryField
+    {
+        outlet
+        {
+            type            fixedValue;
+            value           $internalField;
+        }
+
+        outlet
+        {
+            type    zeroGradient;
+        }
+        ".*"
+        {
+            /*
+            type            fixedValue;
+            value           $internalField;
+            */
+            type            nutkWallFunction;
+            value           uniform 0.01;
+            //type    zeroGradient;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+// ************************************************************************* //

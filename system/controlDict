@@ -1,0 +1,220 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     chtMultiRegionFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         10900;
+
+deltaT          1E-5;
+
+writeControl    adjustable;
+
+writeInterval   1080;
+//writeInterval   500;
+
+purgeWrite      20;
+
+writeFormat     ascii;
+
+writePrecision  20;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+maxCo           10;
+//240 a 8s
+
+
+// Maximum diffusion number
+maxDi           10.0;
+
+adjustTimeStep  yes;
+
+functions
+{
+    boxOutletMeanTemp
+    {
+        type            surfaceFieldValue;
+        libs            (fieldFunctionObjects);
+        fields          (T);
+        operation       areaAverage;
+        regionType      patch;
+        name            outlet; //B.C. name
+        writeArea       true;
+        writeFields     false;
+        region          outBox; // for CHT, delete otherwise
+    }
+    WallHeatFlux_filler
+    {
+        type    wallHeatFlux;
+        libs    (fieldFunctionObjects);
+        region  filler;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    timeStep;
+        writeInterval   1;
+        patches (filler_to_outBox);
+        writeFields     false;
+    }
+
+    WallHeatFlux_outBox
+    {
+        type    wallHeatFlux;
+        libs    (fieldFunctionObjects);
+        region  outBox;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    timeStep;
+        writeInterval   1;
+        patches (outBox_to_filler);
+        writeFields     false;
+    }
+/*
+    boxMeanTemperature
+    {
+        // Calculates the spatial mean temperature
+        type            volFieldValue;
+        libs            (fieldFunctionObjects);
+        fields          (T);
+        operation       volAverage;
+        regionType      all;
+        writeFields     false;
+        region          outBox; // for CHT, delete otherwise
+    }
+    CoilsMeanTemperature
+    {
+        type            volFieldValue;
+        libs            (fieldFunctionObjects);
+        fields          (T);
+        operation       volAverage;
+        regionType      all;
+        writeFields     false;
+        region          coils3; // for CHT, delete otherwise
+    }
+
+    coilsOutletMeanTemp
+    {
+        type            surfaceFieldValue;
+        libs            (fieldFunctionObjects);
+        fields          (T);
+        operation       areaAverage;
+        regionType      patch;
+        name            BCWALL_2; //B.C. name
+        writeArea       true;
+        writeFields     false;
+        region          coils3; // for CHT, delete otherwise
+    }
+    boxOutletMeanTemp
+    {
+        type            surfaceFieldValue;
+        libs            (fieldFunctionObjects);
+        fields          (T);
+        operation       areaAverage;
+        regionType      patch;
+        name            MAIN_TANK_OUTLET; //B.C. name
+        writeArea       true;
+        writeFields     false;
+        region          outBox; // for CHT, delete otherwise
+    }
+
+    probesCoils3
+    {
+        type    probes;
+        libs    ("libsampling.so");
+        name    probesCoils3;
+        fields  ( T );
+
+        fixedLocations  true;
+
+        probeLocations
+        (
+            (0.21 0.26 0.45) //Tin
+            (0.4 0.265 0.045) //T1
+            (0.2 0.260 0.435) //T2
+            (0.16 0.26 0.45) //Tout
+
+        );
+        region coils3; // for CHT, delete otherwise
+    }
+    probesBox
+    {
+        type    probes;
+        libs    ("libsampling.so");
+        name    probesBox;
+        fields  ( T );
+
+        fixedLocations  true;
+
+        probeLocations
+        (
+            //left
+            (0.49 0.10 0.40)
+            (0.49 0.10 0.30)
+            (0.49 0.10 0.20)
+            (0.49 0.10 0.10)
+
+            //center
+            (0.30 0.20 0.40)
+            (0.30 0.20 0.30)
+            (0.30 0.20 0.20)
+            (0.30 0.20 0.10)
+
+            //right
+            (0.10 0.10 0.40)
+            (0.10 0.10 0.30)
+            (0.10 0.10 0.20)
+            (0.10 0.10 0.10)
+        );
+        region outBox; // for CHT, delete otherwise
+    }
+
+    WallHeatFlux_coils3
+    {
+        type    wallHeatFlux;
+        libs    (fieldFunctionObjects);
+        region  coils3;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    timeStep;
+        writeInterval   1;
+    }
+
+    WallHeatFlux_outBox
+    {
+        type    wallHeatFlux;
+        libs    (fieldFunctionObjects);
+        region  outBox;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    timeStep;
+        writeInterval   1;
+    }
+*/
+}
+
+// ************************************************************************* //

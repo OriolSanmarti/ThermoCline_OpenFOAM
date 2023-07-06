@@ -1,0 +1,56 @@
+#!/bin/bash
+cd "${0%/*}" || exit                                # Run from this directory
+source /usr/lib/openfoam/openfoam2012/etc/bashrc
+
+#   cleanCase   ---------------------------------------------------------------
+./Allclean
+#   runCase     ---------------------------------------------------------------
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions
+
+decompDict="-decomposeParDict system/decomposeParDict"
+
+runApplication blockMesh
+runApplication topoSet
+runApplication createPatch -overwrite
+runApplication surfaceFeatureExtract
+
+runApplication $decompDict decomposePar
+runParallel $decompDict snappyHexMesh -overwrite
+
+
+restore0Dir -processor
+restore0Dir
+
+
+# mirar el splitMesh que es el que fa coses rares.
+##################
+runParallel $decompDict splitMeshRegions -cellZones -overwrite
+###################
+#exit 1
+# Remove fluid fields from solid regions (important for post-processing)
+for region in $(foamListRegions solid)
+do
+    rm -f 0/$region/{nut,alphat,epsilon,k,U,p_rgh}
+    rm -f processor*/0/$region/{nut,alphat,epsilon,k,U,p_rgh}
+done
+
+for region in $(foamListRegions)
+do
+    runParallel $decompDict -s $region changeDictionary -region $region
+done
+
+runParallel $(getApplication)
+#runParallel chtMultiRegionSimpleFoam
+
+# Reconstruct
+for region in $(foamListRegions)
+do
+    runParallel -s reconstruct-$region \
+        redistributePar -reconstruct -region $region
+done
+
+echo
+echo "Use paraFoam -touch-all to create files for paraview post-processing"
+echo
+
+#------------------------------------------------------------------------------
