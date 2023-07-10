@@ -80,6 +80,7 @@ functions
         writeInterval   1;
         patches (filler_to_outBox);
         writeFields     false;
+        writeControl    writeTime;
     }
 
     WallHeatFlux_outBox
@@ -93,6 +94,7 @@ functions
         writeInterval   1;
         patches (outBox_to_filler);
         writeFields     false;
+        writeControl    writeTime;
     }
 /*
     boxMeanTemperature

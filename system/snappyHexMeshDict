@@ -37,6 +37,20 @@ geometry
         type triSurfaceMesh;
         name filler;
     }
+    inletRefinado1
+    {
+        type    searchableBox;       // region defined by bounding box
+        min     (0.1465 -0.14 1.522); 
+        max     (0.15 0.14 1.57);
+    }
+
+/*    inletRefinado1
+    {
+        type    searchableBox;       // region defined by bounding box
+        min     (0.0 0.00 1.599);
+        max     (0.05 0.05 1.61);
+    }
+    */
 /*
     outletRefinado
     {
@@ -149,6 +163,11 @@ castellatedMeshControls
 
     refinementRegions
     {
+      inletRefinado1
+      {
+          mode inside;
+          levels ((1.0 3));         // refinement level 4 (1.0 entry ignored)
+      }
     /*
       outletRefinado
       {
