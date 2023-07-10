@@ -18,9 +18,12 @@ thermoType
 {
     type            heRhoThermo;
     mixture         pureMixture;
-    transport       const;
-    thermo          hConst;
-    equationOfState rhoConst;
+    //transport       const;
+    transport       polynomial;
+    //thermo          hConst;
+    thermo          hPolynomial;
+    //equationOfState rhoConst;
+    equationOfState icoPolynomial;
     specie          specie;
     energy          sensibleEnthalpy;
 }
@@ -29,21 +32,29 @@ mixture
 {
     specie
     {
-        molWeight       466;
+        //molWeight       466;
+        molWeight       1;
     }
     equationOfState
     {
-        rho             2004.88;
+        //rho             2004.88;
+        //rhoCoeffs<8>         (2170 -0.688 0 0 0 0 0 0 );
+        rhoCoeffs<8>         (2004.88 0 0 0 0 0 0 0 );
     }
     thermodynamics
     {
-        Cp              1487.44;
+        //Cp              1487.44;
+        //Hf              0;
         Hf              0;
+        Sf              0;
+        CpCoeffs<8>         (1660 -0.719 0 0 0 0 0 0 );
     }
     transport
     {
-        mu              0.0079;
-        Pr              23.50;
+        //mu              0.0079;
+        //Pr              23.50;
+        muCoeffs<8>         (0.054 -0.000311 0.000000496 0 0 0 0 0);
+        kappaCoeffs<8>      (0.50 0 0 0 0 0 0 0);
     }
 }
 
