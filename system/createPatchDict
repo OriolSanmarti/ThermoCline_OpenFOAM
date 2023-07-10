@@ -10,6 +10,17 @@ pointSync false;
 
 patches
 (
+/*    {
+        name inletfluid1;  // Name of new patch to be created
+        patchInfo
+        {
+            type patch;     // is it a patch or wall? polyMesh/boundary file will be updated accordingly.
+        }
+        constructFrom set;
+        set myfaces;            // name of the set created in topoSet
+    }
+*/
+/*
     {
         name BCWALL_1;  // Name of new patch to be created 
         patchInfo
@@ -49,4 +60,5 @@ patches
         constructFrom set;    
         set myFaces4;            // name of the set created in topoSet 
     }
+    */
 );

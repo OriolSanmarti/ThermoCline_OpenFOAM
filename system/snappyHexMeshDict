@@ -32,40 +32,19 @@ addLayers       false;
 geometry
 {
     filler.stl
-    //coils3Simp.stl
     {
         type triSurfaceMesh;
         name filler;
     }
-/*
-    outletRefinado
+    //inletRefinado1
+    inletfluid1
     {
         type    searchableBox;       // region defined by bounding box
-        min     (0.03 0.29 0.05);
-        max     (0.06 0.31 0.07);
+        min     (0.1465 -0.14 1.522); 
+        max     (0.15 0.14 1.57);
     }
 
-    inletRefinado1
-    {
-        type    searchableBox;       // region defined by bounding box
-        min     (0.23 0.18 0.46);
-        max     (0.25 0.21 0.48);
-    }
 
-    inletRefinado2
-    {
-        type    searchableBox;       // region defined by bounding box
-        min     (0.23 0.23 0.46);
-        max     (0.25 0.24 0.48);
-    }
-
-    inletRefinado3
-    {
-        type    searchableBox;       // region defined by bounding box
-        min     (0.35 0.21 0.46);
-        max     (0.37 0.25 0.48);
-    }
-    */
 }
 
 
@@ -143,12 +122,22 @@ castellatedMeshControls
             //level (2 2);
             level (2 2);
         }
+	inletfluid1
+	{
+	    level (2 2);
+	}
     }
     // Resolve sharp angles
     resolveFeatureAngle 30;
 
     refinementRegions
     {
+
+/*      inletRefinado1
+      {
+          mode inside;
+          levels ((1.0 3));         // refinement level 4 (1.0 entry ignored)
+      }*/
     /*
       outletRefinado
       {

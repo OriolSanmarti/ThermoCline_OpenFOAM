@@ -20,19 +20,23 @@ U
     boundaryField
     {
         
+        inletfluid1
+        {
+            type             flowRateInletVelocity;
+            massFlowRate     constant 0.02; // kg/s 
+            value            uniform (0 0 0);
+        }
         inlet
         {
-            type            flowRateInletVelocity;
-            massFlowRate    constant 0.02; // kg/s 
+            type             flowRateOutletVelocity;
+            massFlowRate     constant 0.02; // kg/s 
             value            uniform (0 0 0);
         }
         outlet
         {
-            type             flowRateOutletVelocity;
-            massFlowRate     constant 0.02; // kg/s
-            outletValue      uniform (0 0 0);
+            type            fixedValue;
+            value           uniform (0 0 0);
         }
-
         ".*"
         {
             type            fixedValue;
@@ -51,7 +55,7 @@ T
 
     boundaryField
     {
-        inlet
+        inletfluid1
         {
             type            fixedValue;
             value           uniform 330;
@@ -83,7 +87,7 @@ epsilon
 
     boundaryField
     {
-        inlet
+        inletfluid1
         {
             type            fixedValue;
             value           uniform 0.01;
@@ -113,13 +117,13 @@ k
 
     boundaryField
     {
-        inlet
+        inletfluid
         {
             type            inletOutlet;
             inletValue      uniform 0.1;
         }
 
-        outlet
+        inlet
         {
             type            zeroGradient;
             value           uniform 0.1;
@@ -143,7 +147,7 @@ p_rgh
 
     boundaryField
     {
-        inlet
+        inletfluid1
         {
             type            zeroGradient;
             value           $internalField;
@@ -153,7 +157,7 @@ p_rgh
             */
         }
 
-        outlet
+        inlet
         {
             type            fixedValue;
             value           $internalField;
@@ -199,7 +203,7 @@ alphat
 
     boundaryField
     {
-        inlet
+        inletfluid1
         {
             type    zeroGradient;
             Prt     7.0;
@@ -226,13 +230,13 @@ nut
     internalField   uniform 0;
     boundaryField
     {
-        outlet
+        inletfluid1
         {
             type            fixedValue;
             value           $internalField;
         }
 
-        outlet
+        inlet
         {
             type    zeroGradient;
         }

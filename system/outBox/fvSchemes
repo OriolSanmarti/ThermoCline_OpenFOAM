@@ -31,6 +31,7 @@ divSchemes
     default         none;
 
     div(phi,U)      Gauss upwind;
+    //div(phi,U)      Gauss upwind; //midpoint
     div(phi,K)      Gauss linear;
     //div(phi,h)      Gauss midPoint; //test jordiv
     div(phi,h)      Gauss upwind; //test jordiv
@@ -43,17 +44,17 @@ divSchemes
 
 laplacianSchemes
 {
-    default        Gauss linear corrected;
+    default        Gauss linear corrected; //uncorrected
 }
 
 interpolationSchemes
 {
-    default         linear;
+    default         linear; //reverse linear
 }
 
 snGradSchemes
 {
-    default         corrected;
+    default         corrected; //uncorrected
 }
 
 
