@@ -1,0 +1,64 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+
+pointSync false;
+
+patches
+(
+/*    {
+        name inletfluid1;  // Name of new patch to be created
+        patchInfo
+        {
+            type patch;     // is it a patch or wall? polyMesh/boundary file will be updated accordingly.
+        }
+        constructFrom set;
+        set myfaces;            // name of the set created in topoSet
+    }
+*/
+/*
+    {
+        name BCWALL_1;  // Name of new patch to be created 
+        patchInfo
+        {
+            type wall;     // is it a patch or wall? polyMesh/boundary file will be updated accordingly. 
+        }
+        constructFrom set;    
+        set myFaces1;            // name of the set created in topoSet 
+    }
+
+    {
+        name BCWALL_2;  // Name of new patch to be created 
+        patchInfo
+        {
+            type wall;     // is it a patch or wall? polyMesh/boundary file will be updated accordingly. 
+        }
+        constructFrom set;    
+        set myFaces2;            // name of the set created in topoSet 
+    }
+
+    {
+        name MAIN_TANK_INLET;  // Name of new patch to be created 
+        patchInfo
+        {
+            type patch;     // is it a patch or wall? polyMesh/boundary file will be updated accordingly. 
+        }
+        constructFrom set;    
+        set myFaces3;            // name of the set created in topoSet 
+    }
+
+    {
+        name MAIN_TANK_OUTLET;  // Name of new patch to be created 
+        patchInfo
+        {
+            type patch;     // is it a patch or wall? polyMesh/boundary file will be updated accordingly. 
+        }
+        constructFrom set;    
+        set myFaces4;            // name of the set created in topoSet 
+    }
+    */
+);
