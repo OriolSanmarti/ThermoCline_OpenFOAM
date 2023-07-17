@@ -80,6 +80,7 @@ functions
         writeInterval   1;
         patches (filler_to_outBox);
         writeFields     false;
+        writeControl    writeTime;
     }
 
     WallHeatFlux_outBox
@@ -93,8 +94,9 @@ functions
         writeInterval   1;
         patches (outBox_to_filler);
         writeFields     false;
+        writeControl    writeTime;
     }
-/*
+
     boxMeanTemperature
     {
         // Calculates the spatial mean temperature
@@ -106,7 +108,7 @@ functions
         writeFields     false;
         region          outBox; // for CHT, delete otherwise
     }
-    CoilsMeanTemperature
+    FillerMeanTemperature
     {
         type            volFieldValue;
         libs            (fieldFunctionObjects);
@@ -114,9 +116,9 @@ functions
         operation       volAverage;
         regionType      all;
         writeFields     false;
-        region          coils3; // for CHT, delete otherwise
+        region          filler; // for CHT, delete otherwise
     }
-
+/*
     coilsOutletMeanTemp
     {
         type            surfaceFieldValue;
