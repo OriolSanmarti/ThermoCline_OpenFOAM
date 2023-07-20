@@ -17,6 +17,31 @@ FoamFile
 
 actions
 (
+    // Fluid inlet
+/*    {
+        name    myfaces;           //name of the new set to be created
+        type    faceSet; 
+        action  new;                        // is it new or appending?
+        source  boxToFace;             // extracting faces from the defined box
+        sourceInfo                          // box details
+        {
+            boxes
+            (
+            (0.1465 -0.14 1.522) (0.15 0.14 1.57)
+            );
+        }
+    }
+    {
+        // Extract the boundary faces from the set of all faces
+        name myfaces;
+        type faceSet;
+        action subset;
+        source boundaryToFace;
+        sourceInfo
+        {
+        }
+    }
+*/
     // I create 3 surface regions that will be the inlet regions of the coils
     // these surfaces are defined with 3 boxes
 /*

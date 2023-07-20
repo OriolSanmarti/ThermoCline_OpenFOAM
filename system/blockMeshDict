@@ -13,174 +13,93 @@ FoamFile
     object      blockMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-convertToMeters 1;
 
-Lhx 1.6;
+scale   1;
+
+xmin -0.4;
+xmax 0.4;
+
+ymin -0.4;
+ymax 0.4;
+
+zmin -0.05;
+zmax 1.65;
 
 vertices
 (
-    (0 0 0) // vertex 0
-
-    (0.05 0.05 0) // vertex 1
-    (-0.05 0.05 0) // vertex 2
-    (-0.05 -0.05 0) // vertex 3
-    (0.05 -0.05 0) // vertex 4
-
-    (0.106066 0.106066 0) // vertex 5
-    (-0.106066 0.106066 0) // vertex 6
-    (-0.106066 -0.106066 0) // vertex 7
-    (0.106066 -0.106066 0) // vertex 8
-    
-    (0.05 0.05 $Lhx) // vertex 9
-    (-0.05 0.05 $Lhx) // vertex 10
-    (-0.05 -0.05 $Lhx) // vertex 11
-    (0.05 -0.05 $Lhx) // vertex 12
-
-    (0.106066 0.106066 $Lhx) // vertex 13
-    (-0.106066 0.106066 $Lhx) // vertex 14
-    (-0.106066 -0.106066 $Lhx) // vertex 15
-    (0.106066 -0.106066 $Lhx) // vertex 16
-
-    (0 0 $Lhx) // vertex 17
+    ( $xmin  $ymin  $zmin )
+    ( $xmax  $ymin  $zmin )
+    ( $xmax  $ymax  $zmin )
+    ( $xmin  $ymax  $zmin )
+    ( $xmin  $ymin  $zmax )
+    ( $xmax  $ymin  $zmax )
+    ( $xmax  $ymax  $zmax )
+    ( $xmin  $ymax  $zmax )
 );
 
 blocks
 (
-    hex (1 2 3 4 9 10 11 12) (11 11 120) simpleGrading (1 1 1)
-    hex (1 5 6 2 9 13 14 10) (11 11 120) simpleGrading (1 1 1)
-    hex (2 6 7 3 10 14 15 11) (11 11 120) simpleGrading (1 1 1)
-    hex (3 7 8 4 11 15 16 12) (11 11 120) simpleGrading (1 1 1)
-    hex (8 5 1 4 16 13 9 12) (11 11 120) simpleGrading (1 1 1)
+    hex (0 1 2 3 4 5 6 7) (60 60 110) simpleGrading (1 1 1)
 );
 
 edges
 (
-    arc 5 6 (0 0.15 0) //edge 1
-    arc 6 7 (-0.15 0 0) //edge 2
-    arc 7 8 (0 -0.15 0) //edge 3
-    arc 8 5 (0.15 0 0) //edge 4
-
-    arc 1 2 (0 0.07071 0) //edge 5
-    arc 2 3 (-0.07071 0 0) //edge 6
-    arc 3 4 (0 -0.07071 0) //edge 7
-    arc 4 1 (0.07071 0 0) //edge 8
-
-    arc 13 14 (0 0.15 $Lhx) //edge 9
-    arc 14 15 (-0.15 0 $Lhx) //edge 10
-    arc 15 16 (0 -0.15 $Lhx) //edge 11
-    arc 16 13 (0.15 0 $Lhx) //edge 12
-
-    arc 9 10 (0 0.07071 $Lhx) //edge 13
-    arc 10 11 (-0.07071 0 $Lhx) //edge 14
-    arc 11 12 (0 -0.07071 $Lhx) //edge 15
-    arc 12 9 (0.07071 0 $Lhx) //edge 16
 );
 
 boundary
 (
-    inlet
-    {
-        type patch;
-        faces
-        (
-            (1 2 3 4)
-            (1 5 6 2)
-            (2 6 7 3)
-            (3 7 8 4)
-            (4 8 5 1)
-        );
-    }
-    wall
+    maxY
     {
         type wall;
         faces
         (
-            (13 14 6 5)
-            (14 15 7 6)
-            (15 16 8 7)
-            (16 13 5 8)
+            (3 7 6 2)
         );
     }
-    outlet
-    {
-        type patch;
-        faces
-        (
-            (9 10 11 12)
-            (9 10 14 13)
-            (10 11 15 14)
-            (11 12 16 15)
-            (12 9 13 16)
-        );
-    }
-
-);
-
-/*
-convertToMeters 1;
-rhx 0.15;
-Lhx 1.6;
-rsqrt4 0.053033008; //rsqrt/4.0;
-rsqrt2 0.106066017; //rsqrt/2.0;
-rcos45 0.075; //rsqrt/2.0*0.707106781;
-
-vertices
-(
-    ($rhx $rhx 0) // vertex 0
-    (-0.15 $rhx 0) // vertex 1
-    (-0.15 -0.15 0) // vertex 2
-    ($rhx -0.15 0) // vertex 3
-
-    ($rhx $rhx $Lhx) // vertex 4
-    (-0.15 $rhx $Lhx) // vertex 5
-    (-0.15 -0.15 $Lhx) // vertex 6
-    ($rhx -0.15 $Lhx) // vertex 7
-);
-
-blocks
-(
-    hex (0 1 2 3 4 5 6 7) (20 20 40) simpleGrading (1 1 1)
-);
-
-
-edges
-(
-
-);
-
-boundary
-(
-    inlet
+    minX
     {
         type wall;
         faces
         (
-            (0 1 2 3)
+            (0 4 7 3)
+        );
+    }
+    maxX
+    {
+        type wall;
+        faces
+        (
+            (2 6 5 1)
         );
     }
 
-    outlet
+    minY
     {
-        type patch;
+        type wall;
+        faces
+        (
+            (1 5 4 0)
+        );
+    }
+
+    minZ
+    {
+        type wall;
+        faces
+        (
+            (0 3 2 1)
+        );
+    }
+    maxZ
+    {
+        type wall;
         faces
         (
             (4 5 6 7)
         );
     }
-    sides
-    {
-        type patch;
-        faces
-        (
-            (0 4 5 1)
-            (1 5 6 2)
-            (3 7 6 2)
-            (0 4 7 3)
-        );
-
-    }
 );
-*/
+
 mergePatchPairs
 (
 );
