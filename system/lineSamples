@@ -10,11 +10,52 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      decomposeParDict;
+    object      lineSamples;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  8;
-method          scotch;
 
-// ************************************************************************* //
+
+type        sets;
+setFormat   raw;
+
+fields
+(
+    T
+    wallHeatFlux
+);
+
+interpolationScheme cell;
+
+sets
+(
+    central
+    {
+        type    midPoint;
+        axis    z;
+        start   (0.0 0.0 0.3);
+        end     (0.0 0.0 1.3);
+    }
+    centralwall
+    {
+        type    midPoint;
+        axis    z;
+        start   (0.005 0.0 0.3);
+        end     (0.005 0.0 1.3);
+    }/*
+    MidTube
+    {
+        type    midPoint;
+        axis    y;
+        start   (0.0 0.005 0.8);
+        end     (0.0 -0.005 0.8);
+    }
+    LeftTube
+    {
+        type    midPoint;
+        axis    x;
+        start   (0.0 -0.15 0.8);
+        end     (0.0 0.15 0.8);
+    }*/
+    
+);
