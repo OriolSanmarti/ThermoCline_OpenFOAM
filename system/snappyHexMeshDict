@@ -44,15 +44,15 @@ geometry
     inletfluid1
     {
         type            searchableCylinder;
-        point1          (0.015 0.0 1.55);
-        point2          (0.016665 0.0 1.55);
+        point1          (0.0 0.0 0.99);
+        point2          (0.0 0.0 1.00);
         radius          0.005;
     }
     outletfluid1
     {
         type            searchableCylinder;
-        point1          (0.015 0.0 0.05);
-        point2          (0.016665 0.0 0.05);
+        point1          (0.0 0.0 0.01);
+        point2          (0.0 0.0 0.00);
         radius          0.005;
     }
 
@@ -161,7 +161,7 @@ castellatedMeshControls
       outBox
       {
           mode inside;
-          levels ((1.0 1));         // refinement level 4 (1.0 entry ignored)
+          levels ((1.0 2));         // refinement level 4 (1.0 entry ignored)
       }
     }
 
@@ -176,7 +176,7 @@ castellatedMeshControls
     // after refinement.
     locationsInMesh
     (
-        (( 0.01 0.01 1.5) outBox)
+        (( 0.001 0.001 0.5) outBox)
         (( 0.006  0.006  0.5) filler)
     );
 

@@ -96,19 +96,6 @@ functions
         writeFields     false;
         writeControl    writeTime;
     }
-    heatTrCoeff1
-    {
-        type    heatTransferCoeff;
-        libs    (fieldFunctionObjects);
-        region  outBox;
-        executeControl  timeStep;
-        executeInterval 1;
-        writeControl    timeStep;
-        writeInterval   1;
-        patches (outBox_to_filler);
-        writeFields     false;
-        writeControl    writeTime;
-    }
 
     boxMeanTemperature
     {

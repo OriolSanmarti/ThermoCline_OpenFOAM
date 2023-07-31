@@ -16,14 +16,14 @@ FoamFile
 
 scale   1;
 
-xmin -0.03333;
-xmax 0.03333;
+xmin -0.016665;
+xmax 0.016665;
 
-ymin -0.03333;
-ymax 0.03333;
+ymin -0.016665;
+ymax 0.016665;
 
-zmin -0.05;
-zmax 1.65;
+zmin -0.00;
+zmax 1.0;
 
 vertices
 (
