@@ -33,7 +33,7 @@
     set style line 2 lc rgb "orange"  lw 2 
     set style line 3 lc rgb "red" lw 2 
     set style line 4 lc rgb "green"    lw 2 
-    set style line 5 lc rgb "black"    lw 2 dt "-.-"
+    set style line 5 lc rgb "black"    lw 2
     set style line 6 lc rgb "magenta"    lw 2 dt ".-."
     set style line 7 lc rgb "orange"    lw 2 dt "--"
 
@@ -57,7 +57,7 @@
              "postProcessing/lineSamples/outBox/7560/central_T.xy" u 1:2 w l ls 3 title "t = 7560s" ,\
              "postProcessing/lineSamples/outBox/10800/central_T.xy" u 1:2 w l ls 4 title "t = 10800s" ,\
 
-
+        # Initialize variables
         mfiller = 183.51
         cpfiller = 1148
         moutBox = 94.63
@@ -65,13 +65,36 @@
         Tini = 180
         JtokWh = 2.77E-7
         mdotini = 0.02
+
+        # Initialize the sum to zero
+        sum = 0
+        prevtime = 0
+        timeact = 0
+        # Function to calculate the sum of the product of two columns
+        sum_product(x, y) = (x*y*JtokWh)
+
+        set key top left;
+		set xlabel "Time [s]"
+		set ylabel "Energy [kWh]"
+        set xrange [*:*]
+        set yrange [*:*]
+        set output "Grafics/IntegralHeat.png"
+        plot "postProcessing/outBox/WallHeatFlux_outBox/0/wallHeatFlux.dat" using ($1, timeact = $1-prevtime, prevtime = $1):($0 > 0 ? (sum = sum + sum_product(timeact, $5)) : 0) with lines title "Sum of Product"
+
+        sum = 0
+        prevtime = 0
+        timeact = 0
         set key top left;
 		set xlabel "Time [s]"
 		set ylabel "Energy [kWh]"
         set xrange [*:*]
         set yrange [*:*]
         set output "Grafics/Balanç.png"
-        plot "postProcessing/filler/FillerMeanTemperature/0/volFieldValue.dat" u 1:(($2-Tini)*mfiller*cpfiller*JtokWh) w l ls 1 title "filler" ,\
-             "postProcessing/outBox/boxMeanTemperature/0/volFieldValue.dat" u 1:(($2-Tini)*moutBox*cpoutBox*JtokWh) w l ls 2 title "outBox" ,\
+        plot "postProcessing/filler/FillerMeanTemperature/0/volFieldValue.dat" u 1:(($2-Tini)*mfiller*cpfiller*JtokWh) w l ls 1 title "Acc. filler" ,\
+             "postProcessing/outBox/boxMeanTemperature/0/volFieldValue.dat" u 1:(($2-Tini)*moutBox*cpoutBox*JtokWh) w l ls 2 title "Acc. outBox" ,\
              "postProcessing/outBox/boxOutletMeanTemp/0/surfaceFieldValue.dat" u 1:((330-Tini)*mdotini*cpoutBox*$1*JtokWh) w l ls 4 title "Inlet outBox" ,\
              "postProcessing/outBox/boxOutletMeanTemp/0/surfaceFieldValue.dat" u 1:((Tini-$3)*mdotini*cpoutBox*$1*JtokWh) w l ls 3 title "Outlet outBox" ,\
+             "postProcessing/outBox/WallHeatFlux_outBox/0/wallHeatFlux.dat" using ($1, timeact = $1-prevtime, prevtime = $1):($0 > 0 ? (sum = sum + sum_product(timeact, $5)) : 0) with l ls 5 title "outBox to filler"
+
+
+
