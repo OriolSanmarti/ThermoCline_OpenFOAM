@@ -142,7 +142,7 @@ castellatedMeshControls
         {
             //level (3 3);
             //level (2 2);
-            level (2 2);
+            level (1 1);
         }
         inletfluid1
         {
